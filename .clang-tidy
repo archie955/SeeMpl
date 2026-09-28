@@ -1,0 +1,15 @@
+Checks: >
+  bugprone-*,
+  cert-*,
+  clang-analyzer-*,
+  concurrency-*,
+  misc-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  -readability-magic-numbers,
+  -misc-non-private-member-variables-in-classes
+
+WarningsAsErrors: ''
+HeaderFilterRegex: 'include/.*'
+FormatStyle: file
