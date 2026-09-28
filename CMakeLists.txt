@@ -31,8 +31,7 @@ option(ENABLE_SANITIZE "Enable ASan + UBSan"     OFF)
 
 # packaging
 add_library(SeeMpl STATIC
-    src/1dValue.c
-    src/network.c
+    src/main.c
 )
 add_library(SeeMpl::SeeMpl ALIAS SeeMpl)
 
@@ -51,7 +50,7 @@ endif()
 # clang tidy
 if(ENABLE_TIDY)
     find_program(CLANG_TIDY_BIN clang-tidy REQUIRED)
-    set_target_properties(<mlp-lib> PROPERTIES
+    set_target_properties(SeeMpl PROPERTIES
         C_CLANG_TIDY "${CLANG_TIDY_BIN}"
     )
 endif()

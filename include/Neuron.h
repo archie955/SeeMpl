@@ -1,4 +1,4 @@
-#include "1dValue.h"
+#include "Tape.h"
 #include <stdlib.h>
 #define RANDMAX 2147483647
 
@@ -9,22 +9,35 @@ typedef struct Neuron {
     int count;
 } Neuron;
 
-Neuron *create_neuron(int count) {
-    Value **w = {};
-    for (int i = 0; i < count; i++) {
-        w[i] = init(rand()/RANDMAX);
+Neuron *create_neuron(int count, Tape *t) {
+    Neuron *n =(Neuron*) malloc(sizeof(Neuron));
+    if (n == NULL) {
+        free(n);
+        return NULL;
     }
-    Value *b = init(rand()/RANDMAX);
-    Neuron n = {w, b, count};
-    return &n;
+    n->w =(Value**) malloc(count * sizeof(Value));
+    if (n->w == NULL) {
+        return NULL;
+    }
+    for (int i = 0; i < count; i++) {
+        n->w[i] = init(rand()/RANDMAX);
+        add_value(t, n->w[i]);
+    }
+    n->b = init(rand()/RANDMAX);
+    add_value(t, n->b);
+    
+    n->count = count;
+    return n;
 }
 
-double act(struct Neuron *n, struct Value **x) {
-    double sum = n->b->data;
+Value *neuron_act(struct Neuron *n, double *x, Tape *t) {
+    Value *sum = n->b;
     int count = n->count;
     for (int i = 0; i < count; i++) {
-        sum += n->w[i]->data * x[i]->data;
+        Value *intermediate = init(x[i]);
+        add_value(t, intermediate);
+        sum = sum_values(t, sum, mul_values(t, n->w[i], intermediate));
     }
-    return dtanh(sum);
+    return tanh_value(t, sum);
 }
 

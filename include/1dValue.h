@@ -28,7 +28,7 @@ static void mul_backward(Value *v) {
     v->prev[1]->grad += v->prev[0]->data * v->grad;
 }
 
-static double tanh(double x) {
+static double dtanh(double x) {
     double e = exp(2*x);
     double t = (e-1) / (e+1);
     return t;
@@ -36,12 +36,15 @@ static double tanh(double x) {
 
 static void tanh_backward(Value *v) {
     double x = v->data;
-    double t = tanh(x);
+    double t = dtanh(x);
     v->prev[0]->grad += v->grad * (1.0 - t*t);
 }
 
 static Value *add(Value *v1, Value *v2) {
     Value *out =(Value*) malloc(sizeof(Value));
+    if (out == NULL) {
+        return NULL;
+    }
 
     out->data = v1->data + v2->data;
     out->grad = 0.0;
@@ -53,8 +56,29 @@ static Value *add(Value *v1, Value *v2) {
     return out;
 }
 
+static Value *sub(Value *v1, Value *v2) {
+    Value *negative = init(-1.0);
+
+    Value *out =(Value*) malloc(sizeof(Value));
+    if (out == NULL) {
+        return NULL;
+    }
+
+    out->data = v1->data - v2->data;
+    out->grad = 0.0;
+    out->backward = add_backward;
+    out->num_prev = 2;
+    out->prev[0] = v1;
+    out->prev[1] = v2;
+
+    return out;
+}
+
 static Value *mul(Value *v1, Value *v2) {
     Value *out =(Value*) malloc(sizeof(Value));
+    if (out == NULL) {
+        return NULL;
+    }
 
     out->data = v1->data * v2->data;
     out->grad = 0.0;
@@ -68,8 +92,11 @@ static Value *mul(Value *v1, Value *v2) {
 
 static Value *tanh(Value *v) {
     Value *out =(Value*) malloc(sizeof(Value));
+    if (out == NULL) {
+        return NULL;
+    }
 
-    out->data = tanh(v->data);
+    out->data = dtanh(v->data);
     out->grad = 0.0;
     out->backward = tanh_backward;
     out->num_prev = 2;
