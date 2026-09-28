@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdlib.h>
 
 typedef struct Value {
     double data;
@@ -12,9 +13,9 @@ static void default_backward(struct Value *self) {
     return;
 }
 
-static struct Value init(double data) {
+static struct Value *init(double data) {
     struct Value out = {data, 0.0, &default_backward, 0};
-    return out;
+    return &out;
 }
 
 static void add_backward(Value *v) {
@@ -40,7 +41,7 @@ static void tanh_backward(Value *v) {
 }
 
 static Value *add(Value *v1, Value *v2) {
-    Value *out = malloc(sizeof(Value));
+    Value *out =(Value*) malloc(sizeof(Value));
 
     out->data = v1->data + v2->data;
     out->grad = 0.0;
@@ -53,7 +54,7 @@ static Value *add(Value *v1, Value *v2) {
 }
 
 static Value *mul(Value *v1, Value *v2) {
-    Value *out = malloc(sizeof(Value));
+    Value *out =(Value*) malloc(sizeof(Value));
 
     out->data = v1->data * v2->data;
     out->grad = 0.0;
@@ -66,7 +67,7 @@ static Value *mul(Value *v1, Value *v2) {
 }
 
 static Value *tanh(Value *v) {
-    Value *out = malloc(sizeof(Value));
+    Value *out =(Value*) malloc(sizeof(Value));
 
     out->data = tanh(v->data);
     out->grad = 0.0;
