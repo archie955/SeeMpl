@@ -1,10 +1,6 @@
 #include "MLP.h"
 #include <stdio.h>
 
-void mlp_loop() {
-
-}
-
 int main() {
     Tape *t = create_tape();
     int *size = {3, 4, 4, 1};

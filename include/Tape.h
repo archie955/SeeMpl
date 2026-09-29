@@ -5,65 +5,20 @@ typedef struct Tape {
     unsigned long long count;
 } Tape;
 
-Tape *create_tape(void) {
-    struct Tape out = {0};
-    return &out; 
-}
+Tape *create_tape(void);
 
-void reset_tape(Tape *t) {
-    for (unsigned long long i = 0; i < t->count; i++) {
-        t->slots[i]->grad = 0.0;
-    }
-}
+void add_value(Tape *t, Value *v);
 
-void add_value(Tape *t, Value *v) {
-    t->slots[t->count] = v;
-    t->count += 1;
-}
+Value *sum_values(Tape *t, Value *v1, Value *v2);
 
-Value *sum_values(Tape *t, Value *v1, Value *v2) {
-    Value *out = add(v1, v2);
-    add_value(t, out);
-    return out;
-}
+Value *mul_values(Tape *t, Value *v1, Value *v2);
 
-Value *mul_values(Tape *t, Value *v1, Value *v2) {
-    Value *out = mul(v1, v2);
-    add_value(t, out);
-    return out;
-}
+Value *sub_values(Tape *t, Value *v1, Value *v2);
 
-static Value *sub_values(Tape *t, Value *v1, Value *v2) {
-    Value *negative = init(-1.0);
-    add_value(t, negative);
+Value *tanh_value(Tape *t, Value *v);
 
-    Value *intermediate = mul_values(t, v2, negative);
+void tape_backward(Tape *t);
 
-    Value *out = sum_values(t, v1, intermediate);
+void tape_reset(Tape *t);
 
-    return out;
-}
-
-Value *tanh_value(Tape *t, Value *v) {
-    Value *out = tanh(v);
-    add_value(t, out);
-    return out;
-}
-
-void tape_backward(Tape *t) {
-    for (unsigned long long i = t->count - 1; i >= 0; i--) {
-        t->slots[i]->backward(t->slots[i]);
-    }
-}
-
-void tape_reset(Tape *t) {
-    for (unsigned long long i = t->count - 1; i >= 0; i--) {
-        t->slots[i]->grad = 0.0;
-    }
-}
-
-void tape_update(Tape *t) {
-    for (unsigned long long i = t->count - 1; i >= 0; i--) {
-        t->slots[i]->data -= 0.1 * t->slots[i]->grad;
-    }
-}
+void tape_update(Tape *t);
