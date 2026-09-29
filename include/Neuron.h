@@ -7,13 +7,17 @@
 
 
 typedef struct Neuron {
-    Value **w;
-    Value *b;
-    int count;
+    int n_in;
+    double *w;
+    double b;
+    Value **w_leaf;
+    Value *b_leaf;
 } Neuron;
 
-Neuron *create_neuron(int count, Tape *t);
+Neuron *create_neuron(int n_in);
 
-Value *neuron_act(struct Neuron *n, Value **x, Tape *t);
+Value *neuron_act(struct Neuron *n, struct Value **x, struct Tape *t);
+
+void neuron_update(struct Neuron *n, double lr);
 
 #endif

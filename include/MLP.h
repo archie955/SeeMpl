@@ -7,12 +7,15 @@ typedef struct MLP {
     int *size;
     Layer **l;
     int count;
+    Tape *t;
 } MLP;
 
-MLP *create_mlp(int *size, int count, Tape *t);
+MLP *create_mlp(int *size, int count);
 
-Value *mlp_act(struct MLP *mlp, Value **x, Tape *t);
+Value *mlp_act(MLP *mlp, Value **x);
 
-Value *loss(MLP *mlp, Value **xs, Value *ys, int count, Tape *t);
+Value *loss(MLP *mlp, Value **xs, Value *ys, int count);
+
+void mlp_train_step(MLP *mlp, double *x_raw, int n_in, double y_raw, double lr);
 
 #endif
