@@ -1,8 +1,12 @@
+#ifndef FILE_TAPE_H
+#define FILE_TAPE_H
+
 #include "1dValue.h"
 
 typedef struct Tape {
     Value **slots;
-    unsigned long long count;
+    long long count;
+    long long capacity;
 } Tape;
 
 Tape *create_tape(void);
@@ -22,3 +26,5 @@ void tape_backward(Tape *t);
 void tape_reset(Tape *t);
 
 void tape_update(Tape *t);
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef FILE_LAYER_H
+#define FILE_LAYER_H
+
 #include "Neuron.h"
 
 typedef struct Layer {
@@ -7,4 +10,6 @@ typedef struct Layer {
 
 Layer *create_layer(int count, int prev_count, Tape *t);
 
-Value **layer_act(struct Layer *l, double*x, Tape *t);
+Value **layer_act(struct Layer *l, Value **x, Tape *t);
+
+#endif

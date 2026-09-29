@@ -1,13 +1,12 @@
 #include "MLP.h"
 
 MLP *create_mlp(int *size, int count, Tape *t) {
-    MLP *mlp =(MLP*) malloc(sizeof(MLP));
+    MLP *mlp = malloc(sizeof(struct MLP));
     if (mlp == NULL) {
-        free(mlp);
         return NULL;
     }
 
-    mlp->l =(Layer**) malloc((count - 1) * sizeof(Layer *));
+    mlp->l = malloc((count - 1) * sizeof(struct Layer *));
     if (mlp->l == NULL) {
         free(mlp);
         return NULL;
@@ -22,7 +21,7 @@ MLP *create_mlp(int *size, int count, Tape *t) {
     return mlp;
 }
 
-Value *mlp_act(struct MLP *mlp, Value *x, Tape *t) {
+Value *mlp_act(struct MLP *mlp, Value **x, Tape *t) {
     for (int i = 0; i < mlp->count; i++) {
         x = layer_act(mlp->l[i], x, t);
     }
@@ -30,9 +29,8 @@ Value *mlp_act(struct MLP *mlp, Value *x, Tape *t) {
 }
 
 Value *loss(MLP *mlp, Value **xs, Value *ys, int count, Tape *t) {
-    Value **ypred =(Value**) malloc(mlp->l[0]->count * count * sizeof(Value));
+    Value **ypred = malloc(mlp->l[0]->count * count * sizeof(struct Value));
     if (ypred == NULL) {
-        free(ypred);
         return init(0.0);
     }
     

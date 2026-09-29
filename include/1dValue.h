@@ -1,3 +1,6 @@
+#ifndef FILE_1DVALUE_H
+#define FILE_1DVALUE_H
+
 #include <math.h>
 #include <stdlib.h>
 
@@ -26,3 +29,5 @@ Value *add(Value *v1, Value *v2);
 Value *mul(Value *v1, Value *v2);
 
 Value *vtanh(Value *v);
+
+#endif

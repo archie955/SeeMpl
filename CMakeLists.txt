@@ -31,6 +31,11 @@ option(ENABLE_SANITIZE "Enable ASan + UBSan"     OFF)
 
 # packaging
 add_library(SeeMpl STATIC
+    src/1dValue.c
+    src/Layer.c
+    src/MLP.c
+    src/Neuron.c
+    src/Tape.c
     src/main.c
 )
 add_library(SeeMpl::SeeMpl ALIAS SeeMpl)

@@ -7,8 +7,16 @@ static void default_backward(struct Value *self) {
 }
 
 struct Value *init(double data) {
-    struct Value out = {data, 0.0, &default_backward, 0};
-    return &out;
+    struct Value *out = malloc(sizeof(struct Value));
+    if (out == NULL) {
+        return NULL;
+    }
+    out->data = data;
+    out->grad = 0.0;
+    out->backward = &default_backward;
+    out->num_prev = 0;
+
+    return out;
 }
 
 static void add_backward(Value *v) {
@@ -21,20 +29,12 @@ static void mul_backward(Value *v) {
     v->prev[1]->grad += v->prev[0]->data * v->grad;
 }
 
-static double dtanh(double x) {
-    double e = exp(2*x);
-    double t = (e-1) / (e+1);
-    return t;
-}
-
 static void tanh_backward(Value *v) {
-    double x = v->data;
-    double t = dtanh(x);
-    v->prev[0]->grad += v->grad * (1.0 - t*t);
+    v->prev[0]->grad += v->grad * (1.0 - v->data * v->data);
 }
 
 Value *add(Value *v1, Value *v2) {
-    Value *out =(Value*) malloc(sizeof(Value));
+    Value *out = malloc(sizeof(struct Value) + 2*sizeof(struct Value*));
     if (out == NULL) {
         return NULL;
     }
@@ -50,7 +50,7 @@ Value *add(Value *v1, Value *v2) {
 }
 
 Value *mul(Value *v1, Value *v2) {
-    Value *out =(Value*) malloc(sizeof(Value));
+    Value *out = malloc(sizeof(struct Value) + 2*sizeof(struct Value*));
     if (out == NULL) {
         return NULL;
     }
@@ -65,13 +65,13 @@ Value *mul(Value *v1, Value *v2) {
     return out;
 }
 
-Value *tanh(Value *v) {
-    Value *out =(Value*) malloc(sizeof(Value));
+Value *vtanh(Value *v) {
+    Value *out = malloc(sizeof(struct Value) + sizeof(struct Value*));
     if (out == NULL) {
         return NULL;
     }
 
-    out->data = dtanh(v->data);
+    out->data = tanh(v->data);
     out->grad = 0.0;
     out->backward = tanh_backward;
     out->num_prev = 2;
