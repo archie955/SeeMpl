@@ -20,7 +20,7 @@ struct Neuron *create_neuron(int n_in) {
     return n;
 }
 
-struct Value *neuron_act(struct Neuron *n, struct Value **x, struct Tape *t) {
+struct Value *neuron_act(struct Neuron *n, struct Value* x[n->n_in], struct Tape *t) {
     struct Value *b_leaf = init(n->b);
     add_value(t, b_leaf);
     n->b_leaf = b_leaf;

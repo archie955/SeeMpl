@@ -15,7 +15,7 @@ typedef struct Neuron {
 
 Neuron *create_neuron(int n_in);
 
-Value *neuron_act(struct Neuron *n, struct Value **x, struct Tape *t);
+Value *neuron_act(struct Neuron *n, struct Value* x[n->n_in], struct Tape *t);
 
 void neuron_update(struct Neuron *n, double lr);
 

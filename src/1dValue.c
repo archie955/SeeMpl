@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "1dValue.h"
 
-static void default_backward(struct Value *self) {
+void default_backward() {
     return;
 }
 
@@ -19,17 +19,17 @@ struct Value *init(double data) {
     return out;
 }
 
-static void add_backward(Value *v) {
+void add_backward(Value *v) {
     v->prev[0]->grad += v->grad;
     v->prev[1]->grad += v->grad;
 }
 
-static void mul_backward(Value *v) {
+void mul_backward(Value *v) {
     v->prev[0]->grad += v->prev[1]->data * v->grad;
     v->prev[1]->grad += v->prev[0]->data * v->grad;
 }
 
-static void tanh_backward(Value *v) {
+void tanh_backward(Value *v) {
     v->prev[0]->grad += v->grad * (1.0 - v->data * v->data);
 }
 

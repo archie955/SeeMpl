@@ -1,6 +1,6 @@
 #include "Layer.h"
 
-Layer *create_layer(int count, int prev_count, Tape *t) {
+Layer *create_layer(int count, int prev_count) {
     Layer *l = malloc(sizeof(struct Layer));
     if (l == NULL) {
         return NULL;
@@ -14,16 +14,17 @@ Layer *create_layer(int count, int prev_count, Tape *t) {
     for (int i = 0; i < count; i++) {
         l->n[i] = create_neuron(prev_count);
     }
-    l->count = count;
+    l->n_in = count;
+    l->n_prev = prev_count;
     return l;
 }
 
-Value **layer_act(struct Layer *l, Value **x, Tape *t) {
-    Value **out = malloc(l->count * sizeof(struct Value));
+Value **layer_act(struct Layer *l, Value* x[l->n_prev], Tape *t) {
+    Value **out = malloc(l->n_in * sizeof(struct Value));
     if (out == NULL) {
         return NULL;
     }
-    for (int i = 0; i < l->count; i++) {
+    for (int i = 0; i < l->n_in; i++) {
         out[i] = neuron_act(l->n[i], x, t);
     }
     return out;

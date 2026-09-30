@@ -5,11 +5,12 @@
 
 typedef struct Layer {
     Neuron **n;
-    int count;
+    int n_in;
+    int n_prev;
 } Layer;
 
-Layer *create_layer(int count, int prev_count, Tape *t);
+Layer *create_layer(int count, int prev_count);
 
-Value **layer_act(struct Layer *l, Value **x, Tape *t);
+Value **layer_act(struct Layer *l, Value* x[l->n_prev], Tape *t);
 
 #endif

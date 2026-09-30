@@ -15,7 +15,7 @@ MLP *create_mlp(int *size, int count) {
     mlp->t = create_tape();
 
     for (int i = 0; i < count - 1; i++) {
-        mlp->l[i] = create_layer(size[i+1], size[i], mlp->t);
+        mlp->l[i] = create_layer(size[i+1], size[i]);
     }
     mlp->size = size;
     mlp->count = count;
@@ -23,39 +23,18 @@ MLP *create_mlp(int *size, int count) {
     return mlp;
 }
 
-Value *mlp_act(struct MLP *mlp, Value **x) {
+Value** mlp_act(struct MLP *mlp, Value* x[mlp->count]) {
     for (int i = 0; i < mlp->count; i++) {
         x = layer_act(mlp->l[i], x, mlp->t);
     }
     return x;
 }
 
-Value *loss(MLP *mlp, Value **xs, Value *ys, int count) {
-    Value **ypred = malloc(mlp->l[0]->count * count * sizeof(struct Value));
-    if (ypred == NULL) {
-        return init(0.0);
-    }
-    
-    for (int i = 0; i < count; i++) {
-        ypred[i] = mlp_act(mlp, xs[i]);
-    }
-    Value *vl = init(0.0);
-    add_value(mlp->t, vl);
-    for (int j = 0; j < count; j++) {
-        for (int k = 0; k < mlp->l[j]->count; k++) {
-            Value *diff = sub_values(mlp->t, &ypred[j][k], &ys[j]);
-            Value *loss_part = mul_values(mlp->t, diff, diff);
-            vl = sum_values(mlp->t, vl, loss_part);
-        }
-    }
-    return vl;
-}
-
-Value *mlp_train_step(MLP *mlp, double **x_raw, int n_in, double *y_raw, int n_train, double lr) {
+Value *mlp_train_step(MLP *mlp, int n_in, int n_train, double x_raw[n_train][n_in], double y_raw[n_train], double lr) {
     Tape *t = mlp->t;
     tape_reset(t);
 
-    Value **x[n_train][n_in];
+    Value* x[n_train][n_in];
     Value *y;
     Value *diff;
     Value *loss_part;
@@ -66,7 +45,7 @@ Value *mlp_train_step(MLP *mlp, double **x_raw, int n_in, double *y_raw, int n_t
             add_value(t, x[j][i]);
         }
 
-        Value **pred = mlp_act(mlp, x);
+        Value **pred = mlp_act(mlp, x[j]);
 
         y = init(y_raw[j]);
         add_value(t, y);

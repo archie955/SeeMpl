@@ -12,15 +12,15 @@ typedef struct Value {
     struct Value *prev[];
 } Value;
 
-static void default_backward(struct Value *self);
+void default_backward();
 
 struct Value *init(double data);
 
-static void add_backward(Value *v);
+void add_backward(Value *v);
 
-static void mul_backward(Value *v);
+void mul_backward(Value *v);
 
-static void tanh_backward(Value *v);
+void tanh_backward(Value *v);
 
 Value *add(Value *v1, Value *v2);
 

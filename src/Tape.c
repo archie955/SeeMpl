@@ -22,7 +22,7 @@ void add_value(Tape *t, Value *v) { // this is what python does under the hood
         long long new_cap = t->capacity * 2;
         Value **new_slots = realloc(t->slots, new_cap * sizeof(Value *));
         if (new_slots == NULL) {
-            return NULL;
+            return;
         }
         t->slots = new_slots;
         t->capacity = new_cap;
@@ -74,7 +74,7 @@ void tape_reset(Tape *t) {
 
 void tape_free(Tape *t) {
     tape_reset(t);
-    fre(t->slots);
+    free(t->slots);
     free(t);
 }
 
