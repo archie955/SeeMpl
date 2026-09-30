@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include "1dValue.h"
 
+void default_backward(void) {
+    return;
+}
+
 struct Value *init(double data) {
     struct Value *out = malloc(sizeof(struct Value));
     if (out == NULL) {
@@ -9,7 +13,7 @@ struct Value *init(double data) {
     }
     out->data = data;
     out->grad = 0.0;
-    out->backward = NULL;
+    out->backward = default_backward;
     out->num_prev = 0;
 
     return out;

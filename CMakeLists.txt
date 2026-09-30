@@ -19,6 +19,12 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
 endif()
 
+# sanitizer
+if(ENABLE_SANITIZE)
+    add_compile_options(-fsanitize=address,undefined -fno-omit-frame-pointer)
+    add_link_options(-fsanitize=address,undefined)
+endif()
+
 # output directories
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -36,21 +42,18 @@ add_library(SeeMpl STATIC
     src/MLP.c
     src/Neuron.c
     src/Tape.c
-    src/main.c
 )
 add_library(SeeMpl::SeeMpl ALIAS SeeMpl)
+
+add_executable(seempl_demo src/main.c)
+target_link_libraries(seempl_demo PRIVATE SeeMpl)
+target_link_libraries(SeeMpl PUBLIC m)
 
 target_include_directories(SeeMpl
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
 )
-
-# sanitizer
-if(ENABLE_SANITIZE)
-    target_compile_options(SeeMpl PRIVATE -fsanitize=address,undefined)
-    target_link_options(SeeMpl    PRIVATE -fsanitize=address,undefined)
-endif()
 
 # clang tidy
 if(ENABLE_TIDY)

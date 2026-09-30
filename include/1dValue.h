@@ -12,6 +12,8 @@ typedef struct Value {
     struct Value *prev[];
 } Value;
 
+void default_backward(void);
+
 struct Value *init(double data);
 
 void add_backward(Value *v);
