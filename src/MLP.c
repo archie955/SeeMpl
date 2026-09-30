@@ -39,7 +39,7 @@ void mlp_update(MLP *mlp, double lr) {
     }
 }
 
-Value *mlp_train_step(MLP *mlp, int n_in, int n_train, double x_raw[n_train][n_in], double y_raw[n_train], double lr) {
+double mlp_train_step(MLP *mlp, int n_in, int n_train, double x_raw[n_train][n_in], double y_raw[n_train], double lr) {
     Tape *t = mlp->t;
     tape_reset(t);
 
@@ -68,5 +68,5 @@ Value *mlp_train_step(MLP *mlp, int n_in, int n_train, double x_raw[n_train][n_i
     tape_backward(t);
 
     mlp_update(mlp, lr);
-    return loss;
+    return loss->data;
 }

@@ -14,15 +14,15 @@ int main(void) {
     double ys[4] = {1.0, -1.0, -1.0, 1.0};
 
     MLP *mlp = create_mlp(size, count);
-    Value *loss;
+    double loss;
     
     for (int i = 0; i < 5000; i++) {
         loss = mlp_train_step(mlp, 3, 4, xs, ys, 0.01);
         if (i % 100 == 0) {
-            printf("i is %d, loss is %f\n", i, loss->data);
+            printf("i is %d, loss is %f\n", i, loss);
         }
     }
 
-    printf("Final loss is %f\n", loss->data);
+    printf("Final loss is %f\n", loss);
     return 0;
 }
