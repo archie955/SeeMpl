@@ -24,7 +24,7 @@ MLP *create_mlp(int *size, int count) {
 }
 
 Value** mlp_act(struct MLP *mlp, Value* x[mlp->count]) {
-    for (int i = 0; i < mlp->count; i++) {
+    for (int i = 0; i < mlp->count - 1; i++) { // count is number of layers, but this includes first, so n-1 transformations between layers
         x = layer_act(mlp->l[i], x, mlp->t);
     }
     return x;
@@ -49,7 +49,7 @@ Value *mlp_train_step(MLP *mlp, int n_in, int n_train, double x_raw[n_train][n_i
 
         y = init(y_raw[j]);
         add_value(t, y);
-        diff = sub_values(t, pred[j], y);
+        diff = sub_values(t, pred[0], y);
         loss_part = mul_values(t, diff, diff);
         loss = sum_values(t, loss, loss_part);
     }
