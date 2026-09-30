@@ -12,7 +12,7 @@ Layer *create_layer(int count, int prev_count, Tape *t) {
         return NULL;
     }
     for (int i = 0; i < count; i++) {
-        l->n[i] = create_neuron(prev_count, t);
+        l->n[i] = create_neuron(prev_count);
     }
     l->count = count;
     return l;

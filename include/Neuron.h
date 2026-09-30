@@ -3,7 +3,6 @@
 
 #include "Tape.h"
 #include <stdlib.h>
-#define RANDMAX 2147483647
 
 
 typedef struct Neuron {

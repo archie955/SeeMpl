@@ -12,9 +12,9 @@ struct Neuron *create_neuron(int n_in) {
         return NULL;
     }
     for (int i = 0; i < n_in; i++) {
-        n->w[i] = (double)rand()/RANDMAX;
+        n->w[i] = ((double)rand()/RAND_MAX - 0.5) * 2.0;
     }
-    n->b = (double)rand()/RANDMAX;
+    n->b = ((double)rand()/RAND_MAX - 0.5) * 2.0;
 
     n->w_leaf = malloc(n_in * sizeof(struct Value *));
     return n;

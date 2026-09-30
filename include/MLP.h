@@ -16,6 +16,6 @@ Value *mlp_act(MLP *mlp, Value **x);
 
 Value *loss(MLP *mlp, Value **xs, Value *ys, int count);
 
-void mlp_train_step(MLP *mlp, double *x_raw, int n_in, double y_raw, double lr);
+Value *mlp_train_step(MLP *mlp, double **x_raw, int n_in, double *y_raw, int n_train, double lr);
 
 #endif

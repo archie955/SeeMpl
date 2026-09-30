@@ -20,8 +20,6 @@ static void add_backward(Value *v);
 
 static void mul_backward(Value *v);
 
-static double dtanh(double x);
-
 static void tanh_backward(Value *v);
 
 Value *add(Value *v1, Value *v2);

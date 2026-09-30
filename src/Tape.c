@@ -67,12 +67,19 @@ void tape_backward(Tape *t) {
 
 void tape_reset(Tape *t) {
     for (long long i = 0; i < t->count; i++) {
-        t->slots[i]->grad = 0.0;
+        free(t->slots[i]);
     }
+    t->count = 0;
 }
 
-void tape_update(Tape *t) {
+void tape_free(Tape *t) {
+    tape_reset(t);
+    fre(t->slots);
+    free(t);
+}
+
+void tape_update(Tape *t, double lr) {
     for (long long i = t->count - 1; i >= 0; i--) {
-        t->slots[i]->data -= 0.1 * t->slots[i]->grad;
+        t->slots[i]->data -= lr * t->slots[i]->grad;
     }
 }

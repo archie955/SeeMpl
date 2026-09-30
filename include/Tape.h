@@ -25,6 +25,8 @@ void tape_backward(Tape *t);
 
 void tape_reset(Tape *t);
 
-void tape_update(Tape *t);
+void tape_free(Tape *t);
+
+void tape_update(Tape *t, double lr);
 
 #endif
