@@ -48,6 +48,7 @@ Value *mlp_train_step(MLP *mlp, int n_in, int n_train, double x_raw[n_train][n_i
     Value *diff;
     Value *loss_part;
     Value *loss = init(0.0);
+    add_value(t, loss); // NOTETOSELF: had memory leak previously by not adding this
     for (int j = 0; j < n_train; j++) {
         for (int i = 0; i < n_in; i++) {
             x[j][i] = init(x_raw[j][i]);

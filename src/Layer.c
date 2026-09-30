@@ -6,7 +6,7 @@ Layer *create_layer(int count, int prev_count) {
         return NULL;
     }
 
-    l->n = malloc(count * sizeof(struct Neuron));
+    l->n = malloc(count * sizeof(struct Neuron *));
     if (l->n == NULL) {
         free(l);
         return NULL;
@@ -20,7 +20,7 @@ Layer *create_layer(int count, int prev_count) {
 }
 
 Value **layer_act(struct Layer *l, Value* x[l->n_prev], Tape *t) {
-    Value **out = malloc(l->n_in * sizeof(struct Value));
+    Value **out = malloc(l->n_in * sizeof(struct Value *));
     if (out == NULL) {
         return NULL;
     }
