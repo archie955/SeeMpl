@@ -77,9 +77,3 @@ void tape_free(Tape *t) {
     free(t->slots);
     free(t);
 }
-
-void tape_update(Tape *t, double lr) {
-    for (long long i = t->count - 1; i >= 0; i--) {
-        t->slots[i]->data -= lr * t->slots[i]->grad;
-    }
-}

@@ -30,6 +30,15 @@ Value** mlp_act(struct MLP *mlp, Value* x[mlp->count]) {
     return x;
 }
 
+void mlp_update(MLP *mlp, double lr) {
+    for (int i = 0; i < mlp->count - 1; i++) {
+        Layer *l = mlp->l[i];
+        for (int j = 0; j < l->n_in; j++) {
+            neuron_update(l->n[j], lr);
+        }
+    }
+}
+
 Value *mlp_train_step(MLP *mlp, int n_in, int n_train, double x_raw[n_train][n_in], double y_raw[n_train], double lr) {
     Tape *t = mlp->t;
     tape_reset(t);
@@ -57,6 +66,6 @@ Value *mlp_train_step(MLP *mlp, int n_in, int n_train, double x_raw[n_train][n_i
     loss->grad = 1.0;
     tape_backward(t);
 
-    tape_update(t, lr);
+    mlp_update(mlp, lr);
     return loss;
 }

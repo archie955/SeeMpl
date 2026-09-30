@@ -14,6 +14,8 @@ MLP *create_mlp(int *size, int count);
 
 Value **mlp_act(MLP *mlp, Value* x[mlp->count]);
 
+void mlp_update(MLP *mlp, double lr);
+
 Value *mlp_train_step(MLP *mlp, int n_in, int n_train, double x_raw[n_train][n_in], double y_raw[n_train], double lr);
 
 #endif

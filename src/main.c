@@ -18,8 +18,11 @@ int main(void) {
     
     for (int i = 0; i < 5000; i++) {
         loss = mlp_train_step(mlp, 3, 4, xs, ys, 0.01);
+        if (i % 100 == 0) {
+            printf("i is %d, loss is %f\n", i, loss->data);
+        }
     }
 
-    printf("loss is %f", loss->data);
+    printf("Final loss is %f\n", loss->data);
     return 0;
 }
