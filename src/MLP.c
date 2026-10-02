@@ -66,6 +66,7 @@ double mlp_train_step(MLP *mlp, int n_in, int n_train, double x_raw[n_train][n_i
         diff = sub_values(t, pred[0], y);
         loss_part = mul_values(t, diff, diff);
         loss = sum_values(t, loss, loss_part);
+        free(pred);
     }
     
     loss->grad = 1.0;
