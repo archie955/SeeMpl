@@ -21,19 +21,21 @@ struct Neuron *create_neuron(int n_in) {
     return n;
 }
 
-struct Value *neuron_act(struct Neuron *n, struct Value* x[n->n_in], struct Tape *t) {
+void neuron_leaf_prepare(struct Neuron *n, struct Tape *t) {
     n->b_leaf = init(n->b);
     add_value(t, n->b_leaf);
-
-    struct Value *acc = n->b_leaf;
-
     for (int i = 0; i < n->n_in; i++) {
         n->w_leaf[i] = init(n->w[i]);
         add_value(t, n->w_leaf[i]);
+    }
+}
+
+struct Value *neuron_act(struct Neuron *n, struct Value* x[n->n_in], struct Tape *t) {
+    struct Value *acc = n->b_leaf;
+    for (int i = 0; i < n->n_in; i++) {
         struct Value *prod = mul_values(t, n->w_leaf[i], x[i]);
         acc = sum_values(t, acc, prod);
     }
-
     return tanh_value(t, acc);
 }
 

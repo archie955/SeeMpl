@@ -12,7 +12,7 @@ typedef struct Value {
     struct Value *prev[];
 } Value;
 
-void default_backward(void);
+void default_backward(Value *self);
 
 struct Value *init(double data);
 
