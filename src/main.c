@@ -24,5 +24,6 @@ int main(void) {
     }
 
     printf("Final loss is %f\n", loss);
+    mlp_free(mlp);
     return 0;
 }

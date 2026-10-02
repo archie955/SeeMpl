@@ -19,4 +19,6 @@ Value *neuron_act(struct Neuron *n, struct Value* x[n->n_in], struct Tape *t);
 
 void neuron_update(struct Neuron *n, double lr);
 
+void neuron_free(struct Neuron *n);
+
 #endif

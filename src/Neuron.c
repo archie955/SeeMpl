@@ -43,3 +43,9 @@ void neuron_update(struct Neuron *n, double lr) {
         n->w[i] -= lr * n->w_leaf[i]->grad;
     }
 }
+
+void neuron_free(struct Neuron *n) {
+    free(n->w);
+    free(n->w_leaf);
+    free(n);
+}

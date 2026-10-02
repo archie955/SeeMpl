@@ -18,4 +18,6 @@ void mlp_update(MLP *mlp, double lr);
 
 double mlp_train_step(MLP *mlp, int n_in, int n_train, double x_raw[n_train][n_in], double y_raw[n_train], double lr);
 
+void mlp_free(MLP *mlp);
+
 #endif

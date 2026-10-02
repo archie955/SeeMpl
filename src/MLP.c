@@ -75,3 +75,12 @@ double mlp_train_step(MLP *mlp, int n_in, int n_train, double x_raw[n_train][n_i
     mlp_update(mlp, lr);
     return loss->data;
 }
+
+void mlp_free(MLP *mlp) {
+    for (int i = 0; i < mlp->count - 1; i++) {
+        layer_free(mlp->l[i]);
+    }
+    free(mlp->l);
+    tape_free(mlp->t);
+    free(mlp);
+}

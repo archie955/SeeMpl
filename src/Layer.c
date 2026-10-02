@@ -29,3 +29,11 @@ Value **layer_act(struct Layer *l, Value* x[l->n_prev], Tape *t) {
     }
     return out;
 }
+
+void layer_free(struct Layer *l) {
+    for (int i = 0; i < l->n_in; i++) {
+        neuron_free(l->n[i]);
+    }
+    free(l->n);
+    free(l);
+}
