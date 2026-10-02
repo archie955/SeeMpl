@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "1dValue.h"
 
-void default_backward(void) {
-    return;
+void default_backward(struct Value *self) {
+    (void)self; // this marks as unused for type compatibility
 }
 
 struct Value *init(double data) {
@@ -74,7 +74,7 @@ Value *vtanh(Value *v) {
     out->data = tanh(v->data);
     out->grad = 0.0;
     out->backward = tanh_backward;
-    out->num_prev = 2;
+    out->num_prev = 1;
     out->prev[0] = v;
 
     return out;
