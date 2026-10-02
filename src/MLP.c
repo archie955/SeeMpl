@@ -25,7 +25,11 @@ MLP *create_mlp(int *size, int count) {
 
 Value** mlp_act(struct MLP *mlp, Value* x[mlp->count]) {
     for (int i = 0; i < mlp->count - 1; i++) { // count is number of layers, but this includes first, so n-1 transformations between layers
-        x = layer_act(mlp->l[i], x, mlp->t);
+        Value **next = layer_act(mlp->l[i], x, mlp->t);
+        if (i > 0) {
+            free(x);
+        }
+        x = next;
     }
     return x;
 }
