@@ -43,17 +43,23 @@ add_library(SeeMpl STATIC
     src/Neuron.c
     src/Tape.c
 )
+set_target_properties(SeeMpl PROPERTIES POSITION_INDEPENDENT_CODE ON)
 add_library(SeeMpl::SeeMpl ALIAS SeeMpl)
-
-add_executable(seempl_demo src/main.c)
-target_link_libraries(seempl_demo PRIVATE SeeMpl)
-target_link_libraries(SeeMpl PUBLIC m)
 
 target_include_directories(SeeMpl
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
 )
+target_link_libraries(SeeMpl PUBLIC m)
+
+add_executable(seempl_demo src/main.c)
+target_link_libraries(seempl_demo PRIVATE SeeMpl)
+
+# Python binding
+find_package(Python3 REQUIRED COMPONENTS Development.Module)
+add_library(seempl_python MODULE src/python_binding.c)
+target_link_libraries(seempl_python PRIVATE SeeMpl Python3::Module)
 
 # clang tidy
 if(ENABLE_TIDY)
