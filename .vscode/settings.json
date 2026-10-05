@@ -1,8 +1,13 @@
 {
     "cSpell.words": [
         "dkms",
+        "fsanitize",
+        "INCLUDEDIR",
+        "micrograd",
         "Mkfile",
+        "seempl",
         "symvers"
     ],
-    "C_Cpp.default.compilerPath": "/bin/gcc"
+    "C_Cpp.default.compilerPath": "/bin/gcc",
+    "python-envs.defaultEnvManager": "ms-python.python:system"
 }

@@ -57,3 +57,7 @@ dkms.conf
 build*
 
 Notes.md
+
+# python
+.venv
+**/__pycache__

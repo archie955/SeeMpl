@@ -30,10 +30,11 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# following recommendation
-option(BUILD_TESTS    "Build unit tests"         ON)
+# options so I don't accidentally do everything at once
+option(BUILD_TESTS    "Build unit tests"         OFF)
 option(ENABLE_TIDY    "Enable clang-tidy checks" OFF)
 option(ENABLE_SANITIZE "Enable ASan + UBSan"     OFF)
+option(BUILD_PYTHON "Build python bindings" OFF)
 
 # packaging
 add_library(SeeMpl STATIC
@@ -57,9 +58,12 @@ add_executable(seempl_demo src/main.c)
 target_link_libraries(seempl_demo PRIVATE SeeMpl)
 
 # Python binding
-find_package(Python3 REQUIRED COMPONENTS Development.Module)
-add_library(seempl_python MODULE src/python_binding.c)
-target_link_libraries(seempl_python PRIVATE SeeMpl Python3::Module)
+if (BUILD_PYTHON)
+    find_package(Python3 REQUIRED COMPONENTS Development.Module)
+    add_library(cnn MODULE src/python_binding.c)
+    target_link_libraries(cnn PRIVATE SeeMpl Python3::Module)
+    set_target_properties(cnn PROPERTIES PREFIX "")
+endif()
 
 # clang tidy
 if(ENABLE_TIDY)

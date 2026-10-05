@@ -1,0 +1,16 @@
+[project]
+name = "seempl_testing"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "archie955", email = "archiesmedley604@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = []
+
+[project.scripts]
+seempl = "seempl:main"
+
+[tool.uv]
+package = false
