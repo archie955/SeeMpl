@@ -7,7 +7,10 @@ authors = [
     { name = "archie955", email = "archiesmedley604@gmail.com" }
 ]
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "pandas>=3.0.6",
+    "torch>=2.14.1",
+]
 
 [project.scripts]
 seempl = "seempl:main"
